@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration - Component Review - Actions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid p-3 p-xl-4">
+    <div class="app-shell">
+      <div class="title-strip">CS Engineer - 2026.3.0.52 - 4/14/2026 11:51:41 PM</div>
+
+      <div class="menu-strip border-bottom">
+        <ul class="nav">
+          <li class="nav-item"><button class="nav-link" type="button">Tools</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Resources</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Reports</button></li>
+          <li class="nav-item"><a class="nav-link active fw-semibold" href="./administration.html">Administration</a></li>
+          <li class="nav-item"><button class="nav-link" type="button">Help</button></li>
+        </ul>
+      </div>
+
+      <div class="ribbon border-bottom">
+        <div class="ribbon-group">
+          <button class="tool-btn" type="button"><i class="bi bi-plus-circle text-success tool-icon"></i><span>Add<br>Action</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-dash-circle text-danger tool-icon"></i><span>Delete<br>Action</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-file-earmark-arrow-up text-primary tool-icon"></i><span>Import<br>Actions</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-file-earmark-arrow-down text-primary tool-icon"></i><span>Export<br>Actions</span></button>
+        </div>
+        <div class="ribbon-group border-0 pe-0 me-0">
+          <button class="tool-btn" type="button"><i class="bi bi-arrow-repeat text-secondary tool-icon"></i><span>Sync<br>Server</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-card-checklist text-secondary tool-icon"></i><span>Checklist</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-search text-dark tool-icon"></i><span>Search</span></button>
+        </div>
+      </div>
+
+      <div class="workspace-frame p-1">
+        <div class="row g-2">
+          <div class="col-lg-2">
+            <div class="panel navigator h-100">
+              <div class="panel-header">Navigator</div>
+              <div class="p-2 small">
+                <div class="tree-root mb-1">Administration</div>
+
+                <div class="tree-sub">Company</div>
+                <div class="tree-item ps-3">Our Company</div>
+                <div class="tree-item ps-3">Employees</div>
+                <div class="tree-item ps-3">Customers</div>
+                <div class="tree-item ps-3">Seals</div>
+                <div class="tree-item ps-3">Business Hours</div>
+                <div class="tree-item ps-3">Tasks/Status</div>
+                <div class="tree-item ps-3">Security</div>
+
+                <div class="tree-sub">Customized Lists</div>
+                <div class="tree-item ps-3">Repair Reasons</div>
+                <div class="tree-item ps-3">Payment Terms</div>
+                <div class="tree-item ps-3">Holidays</div>
+                <div class="tree-item ps-3">Invoice SKU</div>
+
+                <div class="tree-sub">Project Settings</div>
+                <div class="tree-item ps-3">Attachment Categories</div>
+                <div class="tree-item ps-3 fw-semibold">Component Review</div>
+                <a class="tree-link ps-4" href="./administration.html">Issues</a>
+                <a class="tree-link ps-4 active" href="./component-review-actions.html">Actions</a>
+                <a class="tree-link ps-4" href="./component-review-changes.html">Changes</a>
+                <div class="tree-item ps-3">Resource Planning Settings</div>
+                <div class="tree-item ps-3">Feedback Tool</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-10">
+            <div class="small-title mb-1">Administration - Component Review - Actions</div>
+
+            <div class="panel">
+              <div class="panel-header">Actions (Global)</div>
+              <div class="grid-toolbar">Drag a column header and drop it here to group by that column</div>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered mock-table">
+                  <thead>
+                    <tr>
+                      <th>Action ID</th>
+                      <th>Default</th>
+                      <th>Job Note (First Review)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1: CR-NIF</td>
+                      <td><input type="checkbox" checked></td>
+                      <td>This issue has been checked per the customer profile page and applicable policies.</td>
+                    </tr>
+                    <tr>
+                      <td>2: CR-CbC</td>
+                      <td><input type="checkbox"></td>
+                      <td>This issue is being handled on a case-by-case basis.</td>
+                    </tr>
+                    <tr>
+                      <td>3: CR-SR</td>
+                      <td><input type="checkbox"></td>
+                      <td>Non-standard fix requested by the tech per customer request. See 2nd review comments.</td>
+                    </tr>
+                    <tr>
+                      <td>4: NPD</td>
+                      <td><input type="checkbox"></td>
+                      <td>No Accurate Action ID is Available</td>
+                    </tr>
+                    <tr>
+                      <td>A</td>
+                      <td><input type="checkbox"></td>
+                      <td>Analyzed truss for H-block/T-block assembly and added bracing note as applicable.</td>
+                    </tr>
+                    <tr>
+                      <td>B</td>
+                      <td><input type="checkbox"></td>
+                      <td>Heel plate(s) was/were modified/shifted as needed to overlap with the bearing.</td>
+                    </tr>
+                    <tr>
+                      <td>C</td>
+                      <td><input type="checkbox"></td>
+                      <td>Heel plate(s) have been adjusted to allow for bolted connection to post.</td>
+                    </tr>
+                    <tr>
+                      <td>1: BR-NIF</td>
+                      <td><input type="checkbox" checked></td>
+                      <td>No issues were found after verification and policy checks.</td>
+                    </tr>
+                    <tr>
+                      <td>2: BR-RVW</td>
+                      <td><input type="checkbox"></td>
+                      <td>Requires secondary structural review before release.</td>
+                    </tr>
+                    <tr>
+                      <td>7: CHG-LD</td>
+                      <td><input type="checkbox"></td>
+                      <td>Confirm load path and update note for field installation.</td>
+                    </tr>
+                    <tr>
+                      <td>3: DF-CHK</td>
+                      <td><input type="checkbox"></td>
+                      <td>Check connector alignment and regenerate layout details.</td>
+                    </tr>
+                    <tr>
+                      <td>5: EX-APP</td>
+                      <td><input type="checkbox"></td>
+                      <td>Escalate for engineering approval due to non-standard condition.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-tabs">
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link" href="./project-list.html">Project List</a></li>
+          <li class="nav-item"><a class="nav-link active" href="./administration.html">Administration</a></li>
+          <li class="nav-item"><a class="nav-link" href="./team-calendar.html">Team Calendar</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

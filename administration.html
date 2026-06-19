@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration - Component Review - Issues</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid p-3 p-xl-4">
+    <div class="app-shell">
+      <div class="title-strip">CS Engineer - 2026.3.0.52 - 4/14/2026 11:51:41 PM</div>
+
+      <div class="menu-strip border-bottom">
+        <ul class="nav">
+          <li class="nav-item"><button class="nav-link" type="button">Tools</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Resources</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Reports</button></li>
+          <li class="nav-item"><a class="nav-link active fw-semibold" href="./administration.html">Administration</a></li>
+          <li class="nav-item"><button class="nav-link" type="button">Help</button></li>
+        </ul>
+      </div>
+
+      <div class="ribbon border-bottom">
+        <div class="ribbon-group">
+          <button class="tool-btn" type="button"><i class="bi bi-plus-square-fill text-success tool-icon"></i><span>Add<br>Issue</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-x-square-fill text-danger tool-icon"></i><span>Delete<br>Issue</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-file-earmark-arrow-up text-primary tool-icon"></i><span>Import<br>Excel</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-file-earmark-arrow-down text-primary tool-icon"></i><span>Export<br>Excel</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-filetype-xml text-info tool-icon"></i><span>Import<br>XML</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-filetype-xml text-secondary tool-icon"></i><span>Export<br>XML</span></button>
+        </div>
+        <div class="ribbon-group">
+          <button class="tool-btn" type="button"><i class="bi bi-arrow-repeat text-secondary tool-icon"></i><span>Sync<br>Server</span></button>
+          <button class="tool-btn" id="manage-actions-btn" type="button" disabled><i class="bi bi-link-45deg text-success tool-icon"></i><span>Manage<br>Actions</span></button>
+        </div>
+        <div class="ribbon-group border-0 pe-0 me-0">
+          <button class="tool-btn" type="button"><i class="bi bi-boxes text-primary tool-icon"></i><span>Material<br>Catalogs</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-card-checklist text-secondary tool-icon"></i><span>Checklist</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-search text-dark tool-icon"></i><span>Search</span></button>
+        </div>
+      </div>
+
+      <div class="workspace-frame p-1">
+        <div class="row g-2">
+          <div class="col-lg-2">
+            <div class="panel navigator h-100">
+              <div class="panel-header">Navigator</div>
+              <div class="p-2 small">
+                <div class="tree-root mb-1">Administration</div>
+
+                <div class="tree-sub">Company</div>
+                <div class="tree-item ps-3">Our Company</div>
+                <div class="tree-item ps-3">Employees</div>
+                <div class="tree-item ps-3">Customers</div>
+                <div class="tree-item ps-3">Seals</div>
+                <div class="tree-item ps-3">Business Hours</div>
+                <div class="tree-item ps-3">Tasks/Status</div>
+                <div class="tree-item ps-3">Security</div>
+
+                <div class="tree-sub">Customized Lists</div>
+                <div class="tree-item ps-3">Repair Reasons</div>
+                <div class="tree-item ps-3">Payment Terms</div>
+                <div class="tree-item ps-3">Holidays</div>
+                <div class="tree-item ps-3">Invoice SKU</div>
+
+                <div class="tree-sub">Project Settings</div>
+                <div class="tree-item ps-3">Attachment Categories</div>
+                <div class="tree-item ps-3 fw-semibold">Component Review</div>
+                <a class="tree-link ps-4 active" href="./administration.html">Issues</a>
+                <a class="tree-link ps-4" href="./component-review-actions.html">Actions</a>
+                <a class="tree-link ps-4" href="./component-review-changes.html">Changes</a>
+                <div class="tree-item ps-3">Resource Planning Settings</div>
+                <div class="tree-item ps-3">Feedback Tool</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-10">
+            <div class="small-title mb-1">Administration - Component Review - Issues</div>
+
+            <div class="panel mb-2">
+              <div class="panel-header">Issues</div>
+              <div class="grid-toolbar d-flex justify-content-between align-items-center">
+                <span>Drag a column header and drop it here to group by that column</span>
+                <span id="issues-filter-label" class="fw-semibold"></span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered mock-table">
+                  <thead>
+                    <tr>
+                      <th>Checklist ID</th>
+                      <th>Checklist Description</th>
+                      <th>Category <button type="button" class="btn btn-link btn-sm p-0 ms-1 filter-trigger" id="category-filter-btn"><i class="bi bi-funnel"></i></button></th>
+                      <th>Design Type</th>
+                      <th>Status</th>
+                      <th>JIRA ID</th>
+                      <th>Confluence/JIRA Link</th>
+                      <th>Send Note?</th>
+                    </tr>
+                  </thead>
+                  <tbody id="issues-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">Actions (Associated to Selected Issue)</div>
+              <div class="grid-toolbar d-flex justify-content-between align-items-center">
+                <span>Drag a column header and drop it here to group by that column</span>
+                <span id="selected-issue-label" class="fw-semibold">Select an issue to view associated actions</span>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered mock-table">
+                  <thead>
+                    <tr>
+                      <th>Action ID</th>
+                      <th>Default</th>
+                      <th>Job Note (First Review)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="associated-actions-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-tabs">
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link" href="./project-list.html">Project List</a></li>
+          <li class="nav-item"><a class="nav-link active" href="./administration.html">Administration</a></li>
+          <li class="nav-item"><a class="nav-link" href="./team-calendar.html">Team Calendar</a></li>
+        </ul>
+      </div>
+
+      <div class="modal fade" id="categoryFilterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header py-2">
+              <h6 class="modal-title">Filter Category</h6>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-2">
+              <label class="form-label mb-1" for="category-filter-select">Category</label>
+              <select class="form-select form-select-sm" id="category-filter-select"></select>
+            </div>
+            <div class="modal-footer py-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="clear-category-filter-btn">Clear</button>
+              <button type="button" class="btn btn-primary btn-sm" id="apply-category-filter-btn">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="manageActionsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="manage-modal-title">Manage Actions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row g-3">
+                <div class="col-lg-12">
+                  <label class="form-label mb-1" for="action-search-input">Search Actions</label>
+                  <input class="form-control form-control-sm mb-2" id="action-search-input" type="text" placeholder="Search by Action ID or note text">
+                  <div class="small-muted mb-2">Checked actions are associated to the selected issue. Uncheck to remove.</div>
+                  <div class="alert alert-light border py-2 px-3 small mb-2" id="picker-preview">Select an action to preview its note.</div>
+                  <div class="table-responsive border">
+                    <table class="table table-sm mb-0 picker-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 36px;"></th>
+                          <th>Action ID</th>
+                          <th>Job Note</th>
+                        </tr>
+                      </thead>
+                      <tbody id="picker-table-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary btn-sm" id="apply-actions-btn">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    const issues = [
+      { id: 'T030', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133403/T030', category: '', sendNote: true },
+      { id: 'T035', description: 'Truss-to-truss/structure connection missing in TC or BC of opened jack truss.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133413/T035', category: '', sendNote: true },
+      { id: 'T060', description: 'Check for end vertical webs bearing on smaller width supports', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674140921/T060', category: '', sendNote: true },
+      { id: 'T063', description: 'Field splice frame procedure.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674142231/T063', category: '', sendNote: true },
+      { id: 'T064', description: '[Plating related software issue - Insert Jira task here]', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2678165673/T064-S', category: '', sendNote: true },
+      { id: 'T069', description: 'Review Trusses with drag loads applied for potential issues', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676323762/T069', category: '', sendNote: true },
+      { id: 'T071', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326050/T071', category: '', sendNote: true },
+      { id: 'T074', description: '“Exposed” members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326689/T074', category: '', sendNote: true }
+    ];
+
+    const actionLibrary = [
+      { key: 'AG001|1: CR-NIF', checklistId: 'AG001', actionId: '1: CR-NIF', isDefault: false, note: 'This issue has been checked per the customer profile page and applicable policies.' },
+      { key: 'AG001|2: CR-CbC', checklistId: 'AG001', actionId: '2: CR-CbC', isDefault: false, note: 'This issue is being handled on a case-by-case basis.' },
+      { key: 'AG001|3: CR-SR', checklistId: 'AG001', actionId: '3: CR-SR', isDefault: false, note: 'Non-standard fix requested by the tech per customer request. See 2nd review comments.' },
+      { key: 'AG001|4: NPD', checklistId: 'AG001', actionId: '4: NPD', isDefault: false, note: 'No Accurate Action ID is Available' },
+      { key: 'AG001|A', checklistId: 'AG001', actionId: 'A', isDefault: false, note: 'Analyzed truss for H-block/T-block assembly and added bracing note as applicable.' },
+      { key: 'AG001|B', checklistId: 'AG001', actionId: 'B', isDefault: false, note: 'Heel plate(s) was/were modified/shifted as needed to overlap with the bearing.' },
+      { key: 'AG001|C', checklistId: 'AG001', actionId: 'C', isDefault: false, note: 'Heel plate(s) have been adjusted to allow for bolted connection to post.' },
+      { key: 'BG010|1: BR-NIF', checklistId: 'BG010', actionId: '1: BR-NIF', isDefault: true, note: 'No issues were found after verification and policy checks.' },
+      { key: 'BG010|2: BR-RVW', checklistId: 'BG010', actionId: '2: BR-RVW', isDefault: false, note: 'Requires secondary structural review before release.' },
+      { key: 'CG115|7: CHG-LD', checklistId: 'CG115', actionId: '7: CHG-LD', isDefault: false, note: 'Confirm load path and update note for field installation.' }
+    ];
+
+    const issueAssociations = {
+      T030: ['AG001|3: CR-SR', 'AG001|B'],
+      T035: ['AG001|4: NPD'],
+      T060: ['AG001|C'],
+      T063: ['AG001|A'],
+      T064: ['AG001|2: CR-CbC'],
+      T069: ['AG001|1: CR-NIF'],
+      T071: ['BG010|1: BR-NIF'],
+      T074: []
+    };
+
+    let selectedIssueId = null;
+    let selectedAssociatedActionKey = null;
+    let modalSelectionSet = new Set();
+    let categoryFilterText = '';
+
+    const issuesTableBody = document.getElementById('issues-table-body');
+    const associatedActionsBody = document.getElementById('associated-actions-body');
+    const selectedIssueLabel = document.getElementById('selected-issue-label');
+    const issuesFilterLabel = document.getElementById('issues-filter-label');
+    const manageActionsBtn = document.getElementById('manage-actions-btn');
+    const categoryFilterBtn = document.getElementById('category-filter-btn');
+    const categoryFilterModalElement = document.getElementById('categoryFilterModal');
+    const categoryFilterModal = new bootstrap.Modal(categoryFilterModalElement);
+    const categoryFilterSelect = document.getElementById('category-filter-select');
+    const applyCategoryFilterBtn = document.getElementById('apply-category-filter-btn');
+    const clearCategoryFilterBtn = document.getElementById('clear-category-filter-btn');
+    const manageModalElement = document.getElementById('manageActionsModal');
+    const manageModal = new bootstrap.Modal(manageModalElement);
+    const manageModalTitle = document.getElementById('manage-modal-title');
+    const pickerTableBody = document.getElementById('picker-table-body');
+    const actionSearchInput = document.getElementById('action-search-input');
+    const pickerPreview = document.getElementById('picker-preview');
+    const applyActionsBtn = document.getElementById('apply-actions-btn');
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function getAvailableCategories() {
+      return [...new Set(
+        issues
+          .map((issue) => (issue.category || '').trim())
+          .filter((category) => category)
+      )].sort((a, b) => a.localeCompare(b));
+    }
+
+    function renderCategoryFilterOptions() {
+      const categories = getAvailableCategories();
+      categoryFilterSelect.innerHTML = [
+        '<option value="">All categories</option>',
+        ...categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
+      ].join('');
+      categoryFilterSelect.value = categoryFilterText;
+      if (categoryFilterSelect.value !== categoryFilterText) {
+        categoryFilterText = '';
+        categoryFilterSelect.value = '';
+      }
+    }
+
+    function renderIssuesTable() {
+      const normalizedFilter = categoryFilterText.trim().toLowerCase();
+
+      const filteredIssues = issues.filter((issue) => {
+        if (!normalizedFilter) return true;
+        return (issue.category || '').trim().toLowerCase() === normalizedFilter;
+      });
+
+      if (selectedIssueId && !filteredIssues.some((i) => i.id === selectedIssueId)) {
+        selectedIssueId = filteredIssues.length ? filteredIssues[0].id : null;
+        selectedAssociatedActionKey = null;
+      }
+
+      if (normalizedFilter) {
+        issuesFilterLabel.textContent = `Category filter: "${categoryFilterText}" (${filteredIssues.length})`;
+        categoryFilterBtn.classList.add('active');
+      } else {
+        issuesFilterLabel.textContent = 'No filters';
+        categoryFilterBtn.classList.remove('active');
+      }
+
+      issuesTableBody.innerHTML = filteredIssues.map((issue) => {
+        const rowClass = issue.id === selectedIssueId ? 'issues-row-selected' : '';
+        return `
+          <tr data-issue-id="${issue.id}" class="${rowClass}">
+            <td>${issue.id}</td>
+            <td>${escapeHtml(issue.description)}</td>
+            <td class="category-cell" contenteditable="true" data-issue-id="${issue.id}">
+              ${escapeHtml(issue.category || '')}
+            </td>
+            <td>${issue.designType}</td>
+            <td>${issue.status}</td>
+            <td>${issue.jiraId}</td>
+            <td><a href="${escapeHtml(issue.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(issue.link)}</a></td>
+            <td><input type="checkbox" ${issue.sendNote ? 'checked' : ''} disabled></td>
+          </tr>
+        `;
+      }).join('');
+
+      issuesTableBody.querySelectorAll('tr').forEach((row) => {
+        row.addEventListener('click', (e) => {
+          if (e.target.closest('.category-cell')) return;
+          selectedIssueId = row.dataset.issueId;
+          selectedAssociatedActionKey = null;
+          renderIssuesTable();
+          renderAssociatedActions();
+          updateToolbarState();
+        });
+      });
+
+      issuesTableBody.querySelectorAll('.category-cell').forEach((cell) => {
+        cell.addEventListener('click', (e) => e.stopPropagation());
+
+        cell.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            cell.blur();
+          }
+        });
+
+        cell.addEventListener('blur', () => {
+          const issueId = cell.dataset.issueId;
+          const issue = issues.find((i) => i.id === issueId);
+          if (!issue) return;
+          issue.category = cell.textContent.trim();
+          cell.textContent = issue.category;
+        });
+      });
+    }
+
+    function getAssociatedActionModels(issueId) {
+      if (!issueId) {
+        return [];
+      }
+      const keys = issueAssociations[issueId] || [];
+      return keys
+        .map((key) => actionLibrary.find((a) => a.key === key))
+        .filter(Boolean);
+    }
+
+    function renderAssociatedActions() {
+      const selectedIssue = issues.find((i) => i.id === selectedIssueId);
+      if (!selectedIssue) {
+        selectedIssueLabel.textContent = 'Select an issue to view associated actions';
+        associatedActionsBody.innerHTML = '';
+        return;
+      }
+
+      selectedIssueLabel.textContent = `Issue ${selectedIssue.id} associated actions`;
+      const associated = getAssociatedActionModels(selectedIssue.id);
+
+      associatedActionsBody.innerHTML = associated.map((action) => {
+        const rowClass = action.key === selectedAssociatedActionKey ? 'issues-row-selected' : '';
+        return `
+          <tr data-action-key="${action.key}" class="${rowClass}">
+            <td>${action.actionId}</td>
+            <td><input type="checkbox" ${action.isDefault ? 'checked' : ''} disabled></td>
+            <td>${escapeHtml(action.note)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      associatedActionsBody.querySelectorAll('tr').forEach((row) => {
+        row.addEventListener('click', () => {
+          selectedAssociatedActionKey = row.dataset.actionKey;
+          renderAssociatedActions();
+          updateToolbarState();
+        });
+      });
+    }
+
+    function updateToolbarState() {
+      const hasIssue = Boolean(selectedIssueId);
+      manageActionsBtn.disabled = !hasIssue;
+    }
+
+    function renderPickerTable() {
+      if (!selectedIssueId) {
+        pickerTableBody.innerHTML = '';
+        return;
+      }
+      const search = actionSearchInput.value.trim().toLowerCase();
+      const filtered = actionLibrary.filter((action) => {
+        if (!search) {
+          return true;
+        }
+        const text = `${action.actionId} ${action.note}`.toLowerCase();
+        return text.includes(search);
+      });
+
+      pickerTableBody.innerHTML = filtered.map((action) => {
+        const checked = modalSelectionSet.has(action.key) ? 'checked' : '';
+        return `
+          <tr data-action-key="${action.key}">
+            <td><input class="form-check-input picker-checkbox" type="checkbox" value="${action.key}" ${checked}></td>
+            <td>${action.actionId}</td>
+            <td>${escapeHtml(action.note)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      pickerTableBody.querySelectorAll('tr').forEach((row) => {
+        row.addEventListener('click', (event) => {
+          const actionKey = row.dataset.actionKey;
+          const action = actionLibrary.find((item) => item.key === actionKey);
+          if (action) {
+            pickerPreview.textContent = `${action.actionId} - ${action.note}`;
+          }
+          const checkbox = row.querySelector('.picker-checkbox');
+          if (!event.target.classList.contains('picker-checkbox')) {
+            checkbox.checked = !checkbox.checked;
+          }
+          if (checkbox.checked) {
+            modalSelectionSet.add(actionKey);
+          } else {
+            modalSelectionSet.delete(actionKey);
+          }
+        });
+      });
+    }
+
+    manageActionsBtn.addEventListener('click', () => {
+      if (!selectedIssueId) {
+        return;
+      }
+      manageModalTitle.textContent = `Manage Actions for Issue ${selectedIssueId}`;
+      actionSearchInput.value = '';
+      pickerPreview.textContent = 'Select an action to preview its note.';
+      modalSelectionSet = new Set(issueAssociations[selectedIssueId] || []);
+      renderPickerTable();
+      manageModal.show();
+    });
+
+    applyActionsBtn.addEventListener('click', () => {
+      if (!selectedIssueId) {
+        return;
+      }
+      issueAssociations[selectedIssueId] = [...modalSelectionSet];
+      selectedAssociatedActionKey = null;
+      manageModal.hide();
+      renderAssociatedActions();
+      updateToolbarState();
+    });
+
+    function applyCategoryFilter() {
+      categoryFilterText = categoryFilterSelect.value;
+      categoryFilterModal.hide();
+      renderIssuesTable();
+      renderAssociatedActions();
+      updateToolbarState();
+    }
+
+    categoryFilterBtn.addEventListener('click', () => {
+      renderCategoryFilterOptions();
+      categoryFilterModal.show();
+      setTimeout(() => categoryFilterSelect.focus(), 100);
+    });
+
+    applyCategoryFilterBtn.addEventListener('click', applyCategoryFilter);
+
+    clearCategoryFilterBtn.addEventListener('click', () => {
+      categoryFilterSelect.value = '';
+      applyCategoryFilter();
+    });
+
+    categoryFilterSelect.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applyCategoryFilter();
+      }
+    });
+
+    actionSearchInput.addEventListener('input', () => {
+      renderPickerTable();
+    });
+
+    selectedIssueId = issues[0].id;
+    renderIssuesTable();
+    renderAssociatedActions();
+    updateToolbarState();
+  })();
+  </script>
+</body>
+</html>
