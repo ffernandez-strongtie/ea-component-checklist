@@ -46,3 +46,4 @@ Important domain constraint: Component Review information is used when reviewing
 
 ## Reference
 - Mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/administration.html
+- Project checklist category filter mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/project-component-review-category-filter.html
