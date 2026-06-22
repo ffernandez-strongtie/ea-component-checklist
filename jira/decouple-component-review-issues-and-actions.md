@@ -44,6 +44,27 @@ Important domain constraint: Component Review information is used when reviewing
 - Previously created project/review records do not change when reusable action text is edited later.
 - Action-management views no longer require users to reason about Checklist ID as the owner of an action.
 
-## Reference
-- Mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/administration.html
-- Project checklist category filter mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/project-component-review-category-filter.html
+## Mockup Reference and Usage
+
+Administration mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/administration.html
+
+Use this mockup to review the administration workflow:
+- Open the Administration mockup.
+- The default page is `Component Review > Issues`.
+- Select an issue row to refresh the associated actions grid below it.
+- Click `Manage Actions` in the ribbon to open the association dialog.
+- Check or uncheck actions to simulate adding or removing associations for the selected issue.
+- Click `Apply` to update the associated actions grid.
+- Use the left navigation under `Component Review` to open the separate `Actions` and `Changes` pages.
+- In the Issues grid, edit the `Category` cell using comma-delimited values such as `Design, Loading`.
+- Use the Category filter on the Issues grid to confirm issues can be found by any assigned category.
+
+Project checklist category filter mockup: https://ffernandez-strongtie.github.io/ea-component-checklist/project-component-review-category-filter.html
+
+Use this mockup to review the project-facing checklist workflow:
+- Open the Project checklist category filter mockup.
+- In the `Component Review` grid, use the `Category` field on a row to type one or more comma-delimited category values.
+- The `Checklist ID` dropdown on that same row narrows based on the entered category values.
+- Clearing the `Category` field shows all available Checklist IDs.
+- Selecting a `Checklist ID` updates the checklist description and note values in the row.
+- This page demonstrates using categories while reviewing a project; creating or maintaining category values happens in the Administration Issues screen.
