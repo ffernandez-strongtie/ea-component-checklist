@@ -219,6 +219,127 @@ body {
   border-color: #c7c7c7;
 }
 
+.project-title-strip {
+  background: #ff5b00;
+  color: #111;
+  font-size: 13px;
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #b04700;
+}
+
+.runtime-nav {
+  background: linear-gradient(#f7f7f7, #e3e3e3);
+  border-right: 1px solid #a8a8a8;
+  min-height: 760px;
+  padding: 0.35rem;
+}
+
+.runtime-nav-item {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  border-bottom: 1px solid #d0d0d0;
+  font-size: 13px;
+}
+
+.runtime-nav-item i {
+  font-size: 1.8rem;
+}
+
+.runtime-nav-item.active {
+  background: #f2f2f2;
+  box-shadow: inset 3px 0 0 #c27b00;
+}
+
+.runtime-panel {
+  min-height: 760px;
+  box-shadow: none;
+}
+
+.runtime-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0.35rem 0.35rem 0;
+  background: #d5d5d5;
+  border-bottom: 1px solid #9b9b9b;
+  font-size: 13px;
+}
+
+.runtime-tabs span {
+  border: 1px solid #a7a7a7;
+  border-bottom: 0;
+  background: linear-gradient(#ededed, #d6d6d6);
+  padding: 0.2rem 0.55rem;
+}
+
+.runtime-tabs span.active {
+  background: #fff6dd;
+}
+
+.runtime-review-header {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  padding: 1rem 0.8rem;
+  background: #f8f8f8;
+  border-bottom: 1px solid #b9b9b9;
+  font-size: 13px;
+}
+
+.rating-dot {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+}
+
+.review-checks {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.runtime-review-header textarea {
+  width: 300px;
+  height: 42px;
+  resize: none;
+  border: 1px solid #aaa;
+  font-size: 12px;
+}
+
+.runtime-grid-wrap {
+  padding: 0.5rem;
+}
+
+.runtime-table {
+  table-layout: fixed;
+}
+
+.runtime-table th:nth-child(1),
+.runtime-table td:nth-child(1) {
+  width: 110px;
+}
+
+.runtime-table th:nth-child(2),
+.runtime-table td:nth-child(2) {
+  width: 190px;
+}
+
+.runtime-table th:nth-child(3),
+.runtime-table td:nth-child(3) {
+  width: 210px;
+}
+
+.runtime-table th:nth-child(6),
+.runtime-table td:nth-child(6) {
+  width: 95px;
+}
+
+.runtime-description-cell {
+  white-space: normal;
+}
+
 .picker-table tbody td {
   border-color: #d5d5d5;
 }

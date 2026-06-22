@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project View - Component Review Checklist</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid p-0">
+    <div class="app-shell">
+      <div class="title-strip">CS Engineer - 2026.3.0.52 - 4/14/2026 11:51:41 PM -</div>
+
+      <div class="menu-strip border-bottom">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="./project-list.html">Project Info</a></li>
+          <li class="nav-item"><a class="nav-link active fw-semibold" href="./project-component-review-category-filter.html">Component Review Checklist</a></li>
+          <li class="nav-item"><button class="nav-link" type="button">Tools</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Resources</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Reports</button></li>
+          <li class="nav-item"><button class="nav-link" type="button">Help</button></li>
+        </ul>
+      </div>
+
+      <div class="ribbon border-bottom">
+        <div class="ribbon-group">
+          <button class="tool-btn" type="button"><i class="bi bi-plus-lg text-success tool-icon"></i><span>Add<br>Item</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-x-lg text-danger tool-icon"></i><span>Delete<br>Item</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-copy text-secondary tool-icon"></i><span>Copy<br>Item</span></button>
+          <button class="tool-btn" type="button" disabled><i class="bi bi-clipboard text-secondary tool-icon"></i><span>Paste<br>Item</span></button>
+        </div>
+        <div class="ribbon-group">
+          <button class="tool-btn" type="button"><i class="bi bi-check-lg text-success tool-icon"></i><span>Approve<br>Final Reviews</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-card-checklist text-secondary tool-icon"></i><span>Checklist</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-search text-dark tool-icon"></i><span>Auto<br>Review</span></button>
+          <button class="tool-btn" type="button" disabled><i class="bi bi-file-earmark-text text-secondary tool-icon"></i><span>Truss<br>Information</span></button>
+        </div>
+        <div class="ribbon-group border-0 pe-0 me-0">
+          <button class="tool-btn" type="button"><i class="bi bi-person-fill text-dark tool-icon"></i><span>Feedback</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-envelope-paper text-secondary tool-icon"></i><span>Email CR<br>Reviewers</span></button>
+          <button class="tool-btn" type="button"><i class="bi bi-envelope-paper text-secondary tool-icon"></i><span>Email<br>Customer/BTS</span></button>
+        </div>
+      </div>
+
+      <div class="project-title-strip">
+        Project View - 320810 - P-1077 - Hydroservice - <span class="text-danger fst-italic">View Only</span>
+        <span class="ms-4">Mode: <a href="#">Multiple Plan</a></span>
+      </div>
+
+      <div class="workspace-frame p-1">
+        <div class="row g-1">
+          <div class="col-1 runtime-nav">
+            <div class="runtime-nav-item"><i class="bi bi-info-circle-fill text-info"></i><span>Project Info</span></div>
+            <div class="runtime-nav-item active"><i class="bi bi-triangle text-warning"></i><span>Components</span></div>
+            <div class="runtime-nav-item"><i class="bi bi-house-door-fill text-info"></i><span>Plans/Elevations</span></div>
+          </div>
+
+          <div class="col-11">
+            <div class="panel runtime-panel">
+              <div class="runtime-tabs">
+                <span>Components</span>
+                <span class="active">Component Review</span>
+                <span>Engineering Package</span>
+              </div>
+
+              <div class="runtime-review-header">
+                <div class="d-flex align-items-center gap-4">
+                  <span>Project Rating:</span>
+                  <span class="rating-dot bg-success"></span>
+                  <span class="rating-dot bg-warning"></span>
+                  <span class="rating-dot bg-danger"></span>
+                  <button class="btn btn-sm btn-outline-secondary">Engineering Sort</button>
+                </div>
+                <div class="review-checks">
+                  <label><input type="checkbox"> Activate First Review</label>
+                  <label><input type="checkbox"> Activate Second Review</label>
+                  <label><input type="checkbox"> Activate Final Review</label>
+                </div>
+                <textarea readonly>There is no feedback for this project.</textarea>
+              </div>
+
+              <div class="table-responsive runtime-grid-wrap">
+                <datalist id="category-options"></datalist>
+                <table class="table table-sm table-bordered mock-table runtime-table">
+                  <thead>
+                    <tr>
+                      <th>Truss ID</th>
+                      <th>Category</th>
+                      <th>Checklist ID</th>
+                      <th>Checklist Description</th>
+                      <th>Customer-Facing Note</th>
+                      <th>Send Note?</th>
+                    </tr>
+                  </thead>
+                  <tbody id="review-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-tabs">
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link" href="./project-list.html">Project List</a></li>
+          <li class="nav-item"><a class="nav-link" href="./administration.html">Administration</a></li>
+          <li class="nav-item"><a class="nav-link" href="./team-calendar.html">Team Calendar</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const checklistLibrary = [
+      { id: 'T030', category: 'Design', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', note: 'Confirm design property before release.' },
+      { id: 'T063', category: 'Field Splice', description: 'Field splice frame procedure.', note: 'Field splice specifications were added. Note plating and lumber change(s).' },
+      { id: 'T064', category: 'Plating', description: '[Plating related software issue - Insert Jira task here]', note: 'Plate(s) was/were modified for position.' },
+      { id: 'T069', category: 'Load Review', description: 'Review Trusses with drag loads applied for potential issues', note: 'Review drag loads and confirm load path.' },
+      { id: 'T071', category: 'Scab', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', note: 'Scab condition reviewed and note revised as applicable.' },
+      { id: 'T074', category: 'Loading', description: 'Exposed members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', note: 'Exposed member loading reviewed.' },
+      { id: 'T124', category: 'Design', description: 'Review Additional Design Checks', note: '' },
+      { id: 'T-999', category: 'General', description: '[New checklist item - Insert description here]', note: '' }
+    ];
+
+    const rows = [
+      { trussId: 'T01', category: 'Design', checklistId: 'T124', sendNote: true },
+      { trussId: 'T01', category: 'Field Splice', checklistId: 'T063', sendNote: true },
+      { trussId: 'T01A', category: 'General', checklistId: 'T-999', sendNote: false },
+      { trussId: 'T60', category: '', checklistId: '', description: 'Inconsistency: Building Length = 0\nInconsistency: Building Width = 0', note: '', sendNote: true },
+      { trussId: 'T60', category: 'Field Splice', checklistId: 'T063', sendNote: true },
+      { trussId: 'Scab frame truss', category: 'Field Splice', checklistId: 'T063', sendNote: true },
+      { trussId: 'Scab frame truss', category: 'Plating', checklistId: 'T064', sendNote: true }
+    ];
+
+    const tableBody = document.getElementById('review-table-body');
+    const categoryOptions = document.getElementById('category-options');
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function getCategories() {
+      return [...new Set(checklistLibrary.map((item) => item.category))].sort((a, b) => a.localeCompare(b));
+    }
+
+    function getFilteredItems(categoryText) {
+      const search = categoryText.trim().toLowerCase();
+      if (!search) {
+        return checklistLibrary;
+      }
+      return checklistLibrary.filter((item) => item.category.toLowerCase().includes(search));
+    }
+
+    function findChecklist(checklistId) {
+      return checklistLibrary.find((item) => item.id === checklistId);
+    }
+
+    function renderChecklistOptions(row) {
+      const items = getFilteredItems(row.category);
+      const selectedStillVisible = items.some((item) => item.id === row.checklistId);
+      const options = [];
+
+      options.push('<option value="">Select Checklist ID</option>');
+      if (row.checklistId && !selectedStillVisible) {
+        options.push(`<option value="${escapeHtml(row.checklistId)}" selected>${escapeHtml(row.checklistId)} (outside category)</option>`);
+      }
+      items.forEach((item) => {
+        const selected = item.id === row.checklistId ? ' selected' : '';
+        options.push(`<option value="${escapeHtml(item.id)}"${selected}>${escapeHtml(item.id)} - ${escapeHtml(item.category)}</option>`);
+      });
+
+      return options.join('');
+    }
+
+    function renderTable() {
+      categoryOptions.innerHTML = getCategories()
+        .map((category) => `<option value="${escapeHtml(category)}"></option>`)
+        .join('');
+
+      tableBody.innerHTML = rows.map((row, index) => {
+        const checklist = findChecklist(row.checklistId);
+        const description = row.description ?? checklist?.description ?? '';
+        const note = row.note ?? checklist?.note ?? '';
+
+        return `
+          <tr>
+            <td>${escapeHtml(row.trussId)}</td>
+            <td>
+              <input class="form-control form-control-sm runtime-category-input" data-row-index="${index}" value="${escapeHtml(row.category)}" list="category-options">
+            </td>
+            <td>
+              <select class="form-select form-select-sm runtime-checklist-select" data-row-index="${index}">
+                ${renderChecklistOptions(row)}
+              </select>
+            </td>
+            <td class="runtime-description-cell">${escapeHtml(description).replaceAll('\n', '<br>')}</td>
+            <td>${escapeHtml(note)}</td>
+            <td class="text-center"><input type="checkbox" ${row.sendNote ? 'checked' : ''}></td>
+          </tr>
+        `;
+      }).join('');
+
+      tableBody.querySelectorAll('.runtime-category-input').forEach((input) => {
+        input.addEventListener('input', (event) => {
+          const index = Number(event.target.dataset.rowIndex);
+          rows[index].category = event.target.value;
+          if (!getFilteredItems(rows[index].category).some((item) => item.id === rows[index].checklistId)) {
+            rows[index].checklistId = '';
+            delete rows[index].description;
+            delete rows[index].note;
+          }
+          renderTable();
+          const nextInput = tableBody.querySelector(`.runtime-category-input[data-row-index="${index}"]`);
+          nextInput.focus();
+          nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length);
+        });
+      });
+
+      tableBody.querySelectorAll('.runtime-checklist-select').forEach((select) => {
+        select.addEventListener('change', (event) => {
+          const index = Number(event.target.dataset.rowIndex);
+          rows[index].checklistId = event.target.value;
+          const checklist = findChecklist(event.target.value);
+          if (checklist) {
+            rows[index].category = checklist.category;
+            delete rows[index].description;
+            delete rows[index].note;
+          }
+          renderTable();
+        });
+      });
+    }
+
+    renderTable();
+  })();
+  </script>
+</body>
+</html>
