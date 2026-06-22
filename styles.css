@@ -329,7 +329,7 @@ body {
 
 .runtime-table th:nth-child(3),
 .runtime-table td:nth-child(3) {
-  width: 170px;
+  width: 210px;
 }
 
 .runtime-table th:nth-child(6),

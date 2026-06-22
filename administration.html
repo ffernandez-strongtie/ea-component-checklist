@@ -201,14 +201,14 @@
     'use strict';
 
     const issues = [
-      { id: 'T030', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133403/T030', category: '', sendNote: true },
-      { id: 'T035', description: 'Truss-to-truss/structure connection missing in TC or BC of opened jack truss.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133413/T035', category: '', sendNote: true },
-      { id: 'T060', description: 'Check for end vertical webs bearing on smaller width supports', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674140921/T060', category: '', sendNote: true },
-      { id: 'T063', description: 'Field splice frame procedure.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674142231/T063', category: '', sendNote: true },
-      { id: 'T064', description: '[Plating related software issue - Insert Jira task here]', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2678165673/T064-S', category: '', sendNote: true },
-      { id: 'T069', description: 'Review Trusses with drag loads applied for potential issues', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676323762/T069', category: '', sendNote: true },
-      { id: 'T071', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326050/T071', category: '', sendNote: true },
-      { id: 'T074', description: '“Exposed” members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326689/T074', category: '', sendNote: true }
+      { id: 'T030', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133403/T030', category: 'Design, Loading', sendNote: true },
+      { id: 'T035', description: 'Truss-to-truss/structure connection missing in TC or BC of opened jack truss.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674133413/T035', category: 'Connection, Field', sendNote: true },
+      { id: 'T060', description: 'Check for end vertical webs bearing on smaller width supports', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674140921/T060', category: 'Bearing, Design', sendNote: true },
+      { id: 'T063', description: 'Field splice frame procedure.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2674142231/T063', category: 'Field Splice, Plating', sendNote: true },
+      { id: 'T064', description: '[Plating related software issue - Insert Jira task here]', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2678165673/T064-S', category: 'Plating, Software', sendNote: true },
+      { id: 'T069', description: 'Review Trusses with drag loads applied for potential issues', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676323762/T069', category: 'Load Review, Design', sendNote: true },
+      { id: 'T071', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326050/T071', category: 'Scab, Girder', sendNote: true },
+      { id: 'T074', description: '“Exposed” members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', designType: 'CS Truss Studio', status: 'Active', jiraId: '--', link: 'https://strongtie.atlassian.net/wiki/spaces/ENG/pages/2676326689/T074', category: 'Loading, Tail Bearing', sendNote: true }
     ];
 
     const actionLibrary = [
@@ -268,10 +268,17 @@
         .replaceAll("'", '&#39;');
     }
 
+    function parseCategories(value) {
+      return (value || '')
+        .split(',')
+        .map((category) => category.trim())
+        .filter(Boolean);
+    }
+
     function getAvailableCategories() {
       return [...new Set(
         issues
-          .map((issue) => (issue.category || '').trim())
+          .flatMap((issue) => parseCategories(issue.category))
           .filter((category) => category)
       )].sort((a, b) => a.localeCompare(b));
     }
@@ -294,7 +301,7 @@
 
       const filteredIssues = issues.filter((issue) => {
         if (!normalizedFilter) return true;
-        return (issue.category || '').trim().toLowerCase() === normalizedFilter;
+        return parseCategories(issue.category).some((category) => category.toLowerCase() === normalizedFilter);
       });
 
       if (selectedIssueId && !filteredIssues.some((i) => i.id === selectedIssueId)) {

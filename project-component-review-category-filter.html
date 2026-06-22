@@ -117,19 +117,19 @@
     'use strict';
 
     const checklistLibrary = [
-      { id: 'T030', category: 'Design', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', note: 'Confirm design property before release.' },
-      { id: 'T063', category: 'Field Splice', description: 'Field splice frame procedure.', note: 'Field splice specifications were added. Note plating and lumber change(s).' },
-      { id: 'T064', category: 'Plating', description: '[Plating related software issue - Insert Jira task here]', note: 'Plate(s) was/were modified for position.' },
-      { id: 'T069', category: 'Load Review', description: 'Review Trusses with drag loads applied for potential issues', note: 'Review drag loads and confirm load path.' },
-      { id: 'T071', category: 'Scab', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', note: 'Scab condition reviewed and note revised as applicable.' },
-      { id: 'T074', category: 'Loading', description: 'Exposed members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', note: 'Exposed member loading reviewed.' },
-      { id: 'T124', category: 'Design', description: 'Review Additional Design Checks', note: '' },
+      { id: 'T030', category: 'Design, Loading', description: 'Verify Creep Factor, Kcr is 2.0 for Green Lumber trusses', note: 'Confirm design property before release.' },
+      { id: 'T063', category: 'Field Splice, Plating', description: 'Field splice frame procedure.', note: 'Field splice specifications were added. Note plating and lumber change(s).' },
+      { id: 'T064', category: 'Plating, Software', description: '[Plating related software issue - Insert Jira task here]', note: 'Plate(s) was/were modified for position.' },
+      { id: 'T069', category: 'Load Review, Design', description: 'Review Trusses with drag loads applied for potential issues', note: 'Review drag loads and confirm load path.' },
+      { id: 'T071', category: 'Scab, Girder', description: 'Check for scab(s) attached to a girder truss, then revise note (U.N.O.)', note: 'Scab condition reviewed and note revised as applicable.' },
+      { id: 'T074', category: 'Loading, Tail Bearing', description: 'Exposed members in tail-bearing trusses should be loaded for applicable TC loads or ceiling loads.', note: 'Exposed member loading reviewed.' },
+      { id: 'T124', category: 'Design, General', description: 'Review Additional Design Checks', note: '' },
       { id: 'T-999', category: 'General', description: '[New checklist item - Insert description here]', note: '' }
     ];
 
     const rows = [
       { trussId: 'T01', category: 'Design', checklistId: 'T124', sendNote: true },
-      { trussId: 'T01', category: 'Field Splice', checklistId: 'T063', sendNote: true },
+      { trussId: 'T01', category: 'Field Splice, Plating', checklistId: 'T063', sendNote: true },
       { trussId: 'T01A', category: 'General', checklistId: 'T-999', sendNote: false },
       { trussId: 'T60', category: '', checklistId: '', description: 'Inconsistency: Building Length = 0\nInconsistency: Building Width = 0', note: '', sendNote: true },
       { trussId: 'T60', category: 'Field Splice', checklistId: 'T063', sendNote: true },
@@ -149,16 +149,26 @@
         .replaceAll("'", '&#39;');
     }
 
+    function parseCategories(value) {
+      return (value || '')
+        .split(',')
+        .map((category) => category.trim())
+        .filter(Boolean);
+    }
+
     function getCategories() {
-      return [...new Set(checklistLibrary.map((item) => item.category))].sort((a, b) => a.localeCompare(b));
+      return [...new Set(checklistLibrary.flatMap((item) => parseCategories(item.category)))].sort((a, b) => a.localeCompare(b));
     }
 
     function getFilteredItems(categoryText) {
-      const search = categoryText.trim().toLowerCase();
-      if (!search) {
+      const searchTerms = parseCategories(categoryText).map((category) => category.toLowerCase());
+      if (!searchTerms.length) {
         return checklistLibrary;
       }
-      return checklistLibrary.filter((item) => item.category.toLowerCase().includes(search));
+      return checklistLibrary.filter((item) => {
+        const itemCategories = parseCategories(item.category).map((category) => category.toLowerCase());
+        return searchTerms.some((term) => itemCategories.some((category) => category.includes(term)));
+      });
     }
 
     function findChecklist(checklistId) {
@@ -214,11 +224,6 @@
         input.addEventListener('input', (event) => {
           const index = Number(event.target.dataset.rowIndex);
           rows[index].category = event.target.value;
-          if (!getFilteredItems(rows[index].category).some((item) => item.id === rows[index].checklistId)) {
-            rows[index].checklistId = '';
-            delete rows[index].description;
-            delete rows[index].note;
-          }
           renderTable();
           const nextInput = tableBody.querySelector(`.runtime-category-input[data-row-index="${index}"]`);
           nextInput.focus();
